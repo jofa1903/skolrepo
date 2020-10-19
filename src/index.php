@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -12,17 +12,19 @@
 
 <body>
     <header>
-        <h1>Webbutveckling 3 - Moment 5</h1>
+        <h1>Webbutveckling 3</h1>
         <h2>Kurser</h2>
     </header>
     <div id="container">
-        <div class="indexCourses">
+    <div id="coursesNoButton">
+                <!-- Courses from DB -->
+            </div>
        
 
         </div>
 
     </div>
-    <!-- Courses from database -->
+   
     <script src="js/main.js"></script>
 </body>
 </html>

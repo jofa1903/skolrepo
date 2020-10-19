@@ -24,7 +24,7 @@
     $courses->progression = $data->progression;
     $courses->coursesyllabus = $data->coursesyllabus;
 
-    /* put course object into databse if obejct exists */
+    /* put course object into databse if object exists */
     if ($courses->create()) {
         echo json_encode(
             /* message in array success */

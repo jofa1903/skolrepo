@@ -5,15 +5,17 @@
 let coursesEl = document.getElementById("courses");
 let addCourseBtn = document.getElementById("addCourse");
 let codeInput = document.getElementById("code");
-let c_nameInput = document.getElementById("name");
+let nameInput = document.getElementById("name");
 let progressionInput = document.getElementById("progression");
 let coursesyllabusInput = document.getElementById("coursesyllabus");
+let coursesElNoButton = document.getElementById("coursesNoButton");
 
 
 /* Eventlisteners */
 
 window.addEventListener('load', getCourses);
 addCourseBtn.addEventListener('click', addCourse);
+window.addEventListener('load', getCoursesNoButton);
 
 /* Functions */
 
@@ -92,7 +94,7 @@ function getOneToUpdate(id) {
             <label for="code">Kurskod</label>
             <input type="text" name="code" id="newcode" value="${courses.code}"> <br>
             <label for="name">Kursnamn</label>
-            <input type="text" name="c_name" id="newname" value="${courses.name}"> <br>
+            <input type="text" name="name" id="newname" value="${courses.name}"> <br>
             <label for="prog">Nivå</label>
             <input type="text" name="prog" id="newprog" value="${courses.progression}"> <br>
             <label for="plan">Kursplan</label>
@@ -103,6 +105,27 @@ function getOneToUpdate(id) {
         })
 }
 
+/* Get all courses 2 */
+
+function getCoursesNoButton() {
+    coursesElNoButton.innerHTML = '';
+    fetch("http://localhost:8888/moment5/api/read.php")
+        .then(response => response.json()
+            .then(data => {
+                data.forEach(courses => {
+                    coursesElNoButton.innerHTML +=
+                        `<div class="courseNoButton"> 
+<p> 
+<b> Course code:</b> ${courses.code} <br/>
+<b> Course name:</b> ${courses.name}<br/>
+<b> Progression:</b> ${courses.progression}<br/>
+<b> Course syllabus:</b> <a class="syllabus_link" href="${courses.coursesyllabus}" target="_blank">Link to course</a>
+</p> <br/><br/>
+</div>`
+
+                })
+            }))
+}
 
 function updateCourse(id) {
 
