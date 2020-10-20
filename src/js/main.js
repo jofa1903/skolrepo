@@ -3,39 +3,60 @@
 /* Variables */
 
 let coursesEl = document.getElementById("courses");
+let coursesElNoButton = document.getElementById("coursesNoButton");
 let addCourseBtn = document.getElementById("addCourse");
 let codeInput = document.getElementById("code");
 let nameInput = document.getElementById("name");
 let progressionInput = document.getElementById("progression");
 let coursesyllabusInput = document.getElementById("coursesyllabus");
-let coursesElNoButton = document.getElementById("coursesNoButton");
 
 
 /* Eventlisteners */
 
 window.addEventListener('load', getCourses);
-addCourseBtn.addEventListener('click', addCourse);
 window.addEventListener('load', getCoursesNoButton);
+if(addCourseBtn){addCourseBtn.addEventListener('click', addCourse);}
 
 /* Functions */
 
 /* Get all courses */
 function getCourses() {
-    coursesEl.innerHTML = '';
+    if(coursesEl){coursesEl.innerHTML = ''};
     fetch("http://localhost:8888/moment5/api/read.php")
         .then(response => response.json()
             .then(data => {
                 data.forEach(courses => {
-                    coursesEl.innerHTML +=
+                    if(coursesEl){coursesEl.innerHTML +=
                         `<div class="course"> 
 <p> 
-<b> Course code:</b> ${courses.code} <br/>
-<b> Course name:</b> ${courses.name}<br/>
+<b> Kurskod:</b> ${courses.code} <br/>
+<b> Kursnamn:</b> ${courses.name}<br/>
 <b> Progression:</b> ${courses.progression}<br/>
-<b> Course syllabus:</b> <a class="syllabus_link" href="${courses.coursesyllabus}" target="_blank">Link to course</a>
+<b> Kursplan:</b> <a class="syllabus_link" href="${courses.coursesyllabus}" target="_blank">Länk här</a>
 </p>
 <button id="${courses.id}" onClick="getOneToUpdate(${courses.id})">Uppdatera</button>
-<button id="${courses.id}" onClick="deleteCourse(${courses.id})">Delete</button>
+<button id="${courses.id}" onClick="deleteCourse(${courses.id})">Radera</button> 
+</div>`}
+
+                })
+            }))
+}
+
+/* Get all courses */
+function getCoursesNoButton() {
+    coursesElNoButton.innerHTML = '';
+    fetch("http://localhost:8888/moment5/api/read.php")
+        .then(response => response.json()
+            .then(data => {
+                data.forEach(courses => {
+                    coursesElNoButton.innerHTML +=
+                        `<div class="courseNoButton"> 
+<p> 
+<b> Kurskod:</b> ${courses.code} <br/>
+<b> Kursnamn:</b> ${courses.name}<br/>
+<b> Progression:</b> ${courses.progression}<br/>
+<b> Kursplan:</b> <a class="syllabus_link" href="${courses.coursesyllabus}" target="_blank">Länk här</a>
+</p> <br/><br/>
 </div>`
 
                 })
@@ -60,6 +81,10 @@ function addCourse() {
         .then(response => response.json())
         .then(data => {
             getCourses();
+            document.getElementById('code').value = '';
+            document.getElementById('name').value = '';
+            document.getElementById('progression').value = '';
+            document.getElementById('coursesyllabus').value = '';
         })
         .catch(error => {
             console.log('Error: ', error);
@@ -95,7 +120,7 @@ function getOneToUpdate(id) {
             <input type="text" name="code" id="newcode" value="${courses.code}"> <br>
             <label for="name">Kursnamn</label>
             <input type="text" name="name" id="newname" value="${courses.name}"> <br>
-            <label for="prog">Nivå</label>
+            <label for="prog">Progression</label>
             <input type="text" name="prog" id="newprog" value="${courses.progression}"> <br>
             <label for="plan">Kursplan</label>
             <input type="text" name="plan" id="newplan" value="${courses.coursesyllabus}"> <br>
@@ -105,27 +130,6 @@ function getOneToUpdate(id) {
         })
 }
 
-/* Get all courses 2 */
-
-function getCoursesNoButton() {
-    coursesElNoButton.innerHTML = '';
-    fetch("http://localhost:8888/moment5/api/read.php")
-        .then(response => response.json()
-            .then(data => {
-                data.forEach(courses => {
-                    coursesElNoButton.innerHTML +=
-                        `<div class="courseNoButton"> 
-<p> 
-<b> Course code:</b> ${courses.code} <br/>
-<b> Course name:</b> ${courses.name}<br/>
-<b> Progression:</b> ${courses.progression}<br/>
-<b> Course syllabus:</b> <a class="syllabus_link" href="${courses.coursesyllabus}" target="_blank">Link to course</a>
-</p> <br/><br/>
-</div>`
-
-                })
-            }))
-}
 
 function updateCourse(id) {
 
